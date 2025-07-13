@@ -1,3 +1,12 @@
+import gdown
+
+# Download from Google Drive
+movie_dict_url = "https://drive.google.com/file/d/1Kw8CSC_ZmLGFQ-4f8ZgBvCs1mAFdG0ih/view?usp=drive_link"
+similarity_url = "https://drive.google.com/file/d/1qYThOUUMhkRtAWRyCFkO2EVCHEpYbFIz/view?usp=drive_link"
+
+gdown.download(movie_dict_url, "movie_dict.pkl", quiet=False)
+gdown.download(similarity_url, "similarity.pkl", quiet=False)
+
 import streamlit as st
 import pickle
 import pandas as pd
