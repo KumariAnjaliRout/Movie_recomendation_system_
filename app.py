@@ -1,28 +1,28 @@
-import gdown
-
-# Download from Google Drive
-movie_dict_url = "https://drive.google.com/file/d/1Kw8CSC_ZmLGFQ-4f8ZgBvCs1mAFdG0ih/view?usp=drive_link"
-similarity_url = "https://drive.google.com/file/d/1qYThOUUMhkRtAWRyCFkO2EVCHEpYbFIz/view?usp=drive_link"
-
-gdown.download(movie_dict_url, "movie_dict.pkl", quiet=False)
-gdown.download(similarity_url, "similarity.pkl", quiet=False)
-
 import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import gdown
+import os
 
-#  Load saved movie data and similarity matrix
+# Download pickle files from Google Drive if not present
+if not os.path.exists("movie_dict.pkl"):
+    gdown.download("https://drive.google.com/uc?id=1Kw8CSC_ZmLGFQ-4f8ZgBvCs1mAFdG0ih", "movie_dict.pkl", quiet=False)
+
+if not os.path.exists("similarity.pkl"):
+    gdown.download("https://drive.google.com/uc?id=1qYThOUUMhkRtAWRyCFkO2EVCHEpYbFIz", "similarity.pkl", quiet=False)
+
+# Load data
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
 movies = pd.DataFrame(movies_dict)
 similarity = pickle.load(open('similarity.pkl', 'rb'))
 
-#  Function to fetch movie poster using IMDb API
+# Fetch poster
 def fetch_poster(movie_name):
     url = "https://imdb8.p.rapidapi.com/title/find"
     querystring = {"q": movie_name}
     headers = {
-        "x-rapidapi-key": "1fbfa1d6b2msh32cfe69cdbe3847p1a958ajsn576375deeb9c",  # Replace with your own RapidAPI key
+        "x-rapidapi-key": "1fbfa1d6b2msh32cfe69cdbe3847p1a958ajsn576375deeb9c",
         "x-rapidapi-host": "imdb8.p.rapidapi.com"
     }
 
@@ -38,7 +38,7 @@ def fetch_poster(movie_name):
 
     return "https://via.placeholder.com/500x750?text=No+Poster"
 
-#  Movie Recommendation Function
+# Recommendation logic
 def recommend(movie):
     try:
         index = movies[movies['title'] == movie].index[0]
@@ -58,7 +58,7 @@ def recommend(movie):
     except:
         return [], []
 
-#  Streamlit Web Interface
+# Streamlit interface
 st.set_page_config(page_title="Movie Recommender", layout="wide")
 st.title("🎬 Movie Recommender System")
 
