@@ -52,7 +52,7 @@ Contains metadata for up to 5000 movies, including genres, overview, cast, and c
 - Fetches movie posters using the IMDb API, making recommendations visually engaging.
 
 - ## Deployment  
-The project is deployed on Hugging Face Spaces. You can explore it here:  
+The project is deployed on Hugging Face Spaces. You can explore it here:  https://movierecomendationsystem-x8yjxg5e4dqyuasdhp5pko.streamlit.app/
 
 
 Like this Hugging Face space? Feel free to try it out and share your feedback!  
