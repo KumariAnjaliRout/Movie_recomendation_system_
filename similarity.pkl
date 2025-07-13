@@ -1,0 +1,27 @@
+import pickle
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Load your movie_dict.pkl
+with open('movie_dict.pkl', 'rb') as f:
+    movie_dict = pickle.load(f)
+
+movies = pd.DataFrame(movie_dict)
+
+# Check if 'tags' column exists
+if 'tags' not in movies.columns:
+    raise ValueError("The 'tags' column is missing in your data.")
+
+# Vectorize tags
+cv = CountVectorizer(max_features=5000, stop_words='english')
+vectors = cv.fit_transform(movies['tags']).toarray()
+
+# Compute cosine similarity
+similarity = cosine_similarity(vectors)
+
+# Save similarity matrix
+with open('similarity.pkl', 'wb') as f:
+    pickle.dump(similarity, f)
+
+print("✅ similarity.pkl created successfully.")
